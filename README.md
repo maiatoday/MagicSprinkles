@@ -1,2 +1,2 @@
-# magicsprinkles
+# MagicSprinkles
 Jetpack Compose animation experiments
