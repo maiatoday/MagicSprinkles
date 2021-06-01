@@ -7,4 +7,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MagicSprinkles"
-include ':app'
+include(":app")
