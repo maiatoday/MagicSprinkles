@@ -9,7 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import net.maiatoday.magicsprinkles.MainActivity
+import net.maiatoday.magicsprinkles.MainViewModel
 import net.maiatoday.magicsprinkles.ui.component.ColourThingy
 import net.maiatoday.magicsprinkles.ui.component.HideShowThingy
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen(
-    viewModel: MainActivity.MainViewModel = viewModel()) {
+    viewModel: MainViewModel = viewModel()) {
     Surface(color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier.fillMaxSize(),

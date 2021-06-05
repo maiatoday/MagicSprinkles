@@ -6,13 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import net.maiatoday.magicsprinkles.ui.screen.MainScreen
 import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    class MainViewModel : ViewModel() { /*TODO*/ }
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
