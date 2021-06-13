@@ -13,11 +13,14 @@ import net.maiatoday.magicsprinkles.MainViewModel
 import net.maiatoday.magicsprinkles.ui.component.ColourThingy
 import net.maiatoday.magicsprinkles.ui.component.HideShowThingy
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 
 @ExperimentalAnimationApi
 @Composable
-fun MainScreen(
-    viewModel: MainViewModel = viewModel()) {
+fun SampleScreen(
+    viewModel: MainViewModel = viewModel(),
+    navController: NavHostController
+) {
     Surface(color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier.fillMaxSize(),
