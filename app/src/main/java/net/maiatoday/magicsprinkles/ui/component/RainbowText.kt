@@ -48,7 +48,6 @@ fun RainbowText(
         targetValue = rainbow.size.toFloat(),
         animationSpec = infiniteRepeatable(
             animation = tween(),
-            // The value will infinitely repeat from 0 to 1 and 1 to 0
             repeatMode = RepeatMode.Restart
         )
     )

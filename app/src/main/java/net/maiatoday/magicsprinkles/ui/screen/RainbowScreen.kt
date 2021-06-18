@@ -1,10 +1,7 @@
 package net.maiatoday.magicsprinkles.ui.screen
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -28,7 +25,7 @@ fun RainbowScreen(
     navController: NavHostController
 ) {
     Surface(color = MaterialTheme.colors.background) {
-        var text by rememberSaveable { mutableStateOf("A") }
+        var text by rememberSaveable { mutableStateOf("This ain't no disco!") }
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -45,10 +42,11 @@ fun RainbowScreen(
                 },
                 label = { Text("Rainbow message") }
             )
+            Spacer(modifier = Modifier.height(16.dp))
             RainbowText(
                 modifier = Modifier.padding(8.dp),
                 text = text,
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.h4
             )
         }
     }
