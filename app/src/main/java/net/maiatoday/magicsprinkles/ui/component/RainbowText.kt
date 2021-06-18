@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
+import net.maiatoday.magicsprinkles.ui.theme.*
 import kotlin.math.round
 
 @ExperimentalAnimationApi
@@ -18,16 +18,9 @@ import kotlin.math.round
 fun MultiColorText(
     modifier: Modifier = Modifier,
     text: String,
-    style: TextStyle = LocalTextStyle.current,
-    startColor: Int = 0,
-    rainbow: List<Color> = listOf(
-        Color.Red,
-        Color.Yellow,
-        Color.Green,
-        Color.Blue,
-        Color.Magenta,
-        Color.Cyan
-    )
+    style: TextStyle,
+    startColor: Int,
+    rainbow: List<Color>
 ) {
     Row(modifier) {
         var index = startColor
@@ -46,14 +39,8 @@ fun RainbowText(
     modifier: Modifier = Modifier,
     text: String,
     style: TextStyle = LocalTextStyle.current,
-    rainbow: List<Color> = listOf(
-        Color.Red,
-        Color.Yellow,
-        Color.Green,
-        Color.Blue,
-        Color.Magenta,
-        Color.Cyan
-    )) {
+    rainbow: List<Color> = SkittlesRainbow
+) {
 
     val infiniteTransition = rememberInfiniteTransition()
     val infinitelyAnimatedFloat = infiniteTransition.animateFloat(
