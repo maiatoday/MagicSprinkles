@@ -13,14 +13,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import net.maiatoday.magicsprinkles.MainViewModel
-import net.maiatoday.magicsprinkles.ui.component.AnotherColorShiftLoopText
-import net.maiatoday.magicsprinkles.ui.component.LoopRainbowText
-import net.maiatoday.magicsprinkles.ui.component.Loopy
-import net.maiatoday.magicsprinkles.ui.component.MultiColorSmoothText
+import net.maiatoday.magicsprinkles.ui.component.*
 
 @ExperimentalAnimationApi
 @Composable
@@ -35,6 +33,7 @@ fun RainbowScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val spacer = Modifier.height(16.dp)
             Text(
                 "🌈",
                 modifier = Modifier.padding(8.dp)
@@ -46,40 +45,49 @@ fun RainbowScreen(
                 },
                 label = { Text("Rainbow message") }
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            LoopRainbowText(
+            MultiColorText(
+                text = text,
+                modifier = Modifier.padding(8.dp),
+                style = MaterialTheme.typography.h5
+            )
+            Spacer(modifier = spacer)
+            SnappyRainbowText(
                 text = text,
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.h4
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = spacer)
+            TwoColorSmoothText(
+                text = text,
+                modifier = Modifier.padding(8.dp),
+                style = MaterialTheme.typography.h6,
+                startColor = Color.Magenta,
+                endColor = Color.Cyan,
+
+                )
+            Spacer(modifier = spacer)
             MultiColorSmoothText(
                 text = text,
                 modifier = Modifier.padding(8.dp),
-                style = MaterialTheme.typography.h4
+                style = MaterialTheme.typography.h5,
+                duration = 1200
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            AnotherColorShiftLoopText(
+            Spacer(modifier = spacer)
+            SmoothRainbowText(
                 text = text,
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.h4,
-                durationMillis = 1200
+                duration = 400
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            Loopy(
-                text = text,
-                modifier = Modifier.padding(8.dp),
-                style = MaterialTheme.typography.h4
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Loopy(
+            Spacer(modifier = spacer)
+            SmoothRainbowText(
                 text = text,
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.h4,
                 duration = 1200
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            Loopy(
+            Spacer(modifier = spacer)
+            SmoothRainbowText(
                 text = text,
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.h4,

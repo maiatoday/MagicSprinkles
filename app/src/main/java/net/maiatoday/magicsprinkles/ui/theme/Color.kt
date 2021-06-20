@@ -24,3 +24,21 @@ val SkittlesRainbow = listOf(
     RainbowIndigo,
     RainbowViolet
 )
+
+val PastelRainbowRed = Color(0xFFFF80AB)
+val PastelRainbowOrange = Color(0xFFFF9E80)
+val PastelRainbowYellow = Color(0xFFFFFF8D)
+val PastelRainbowGreen = Color(0xFFA7FFEB)
+val PastelRainbowBlue = Color(0xFF82B1FF)
+val PastelRainbowIndigo = Color(0xFF8C9EFF)
+val PastelRainbowViolet = Color(0xFFEA80FC)
+
+val PastelRainbow = listOf(
+   PastelRainbowRed,
+   PastelRainbowOrange,
+   PastelRainbowYellow,
+   PastelRainbowGreen,
+   PastelRainbowBlue,
+   PastelRainbowIndigo,
+   PastelRainbowViolet
+)

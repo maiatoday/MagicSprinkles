@@ -4,7 +4,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,43 +14,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
-import net.maiatoday.magicsprinkles.ui.theme.SkittlesRainbow
+import net.maiatoday.magicsprinkles.ui.theme.PastelRainbow
 
 @ExperimentalAnimationApi
 @Composable
-fun MultiColorText(
+fun SmoothRainbowText(
     modifier: Modifier = Modifier,
     text: String,
     style: TextStyle = LocalTextStyle.current,
-    rainbow: List<Color> = SkittlesRainbow,
+    rainbow: List<Color> = PastelRainbow,
     startColor: Int = 0,
+    duration: Int = 1200
 ) {
     Row(modifier) {
         var index = startColor
         for (letter in text) {
-            Text(letter.toString(), color = rainbow.get(index), style = style)
-            index++
-            if (index == rainbow.size) index = 0
-        }
-
-    }
-}
-
-@ExperimentalAnimationApi
-@Composable
-fun Loopy(
-    modifier: Modifier = Modifier,
-    text: String,
-    style: TextStyle = LocalTextStyle.current,
-    rainbow: List<Color> = SkittlesRainbow,
-    startColor: Int = 0,
-    duration: Int = 5600
-) {
-    Row(modifier) {
-        var index = startColor
-        for (letter in text) {
-            AnotherColorShiftLoopText(
+            MultiColorSmoothText(
                 text = letter.toString(),
                 style = style,
                 rainbow = rainbow,
@@ -57,6 +40,7 @@ fun Loopy(
             )
             index++
             if (index == rainbow.size) index = 0
+
         }
 
     }
@@ -64,35 +48,7 @@ fun Loopy(
 
 @ExperimentalAnimationApi
 @Composable
-fun MultiColorSmoothText(
-    modifier: Modifier = Modifier,
-    text: String,
-    style: TextStyle = LocalTextStyle.current,
-    startColorIndex: Int = 0,
-    rainbow: List<Color> = SkittlesRainbow
-) {
-    Row(modifier) {
-        var startIndex = startColorIndex
-        var nextIndex = nextLoopIndex(startColorIndex, rainbow.size - 1)
-        for (letter in text) {
-            ColorShiftLoopText(
-                text = letter.toString(),
-                startColor = rainbow[startIndex],
-                endColor = rainbow[nextIndex],
-                style = style
-            )
-            startIndex = nextLoopIndex(startIndex, rainbow.size - 1)
-            nextIndex = nextLoopIndex(nextIndex, rainbow.size - 1)
-        }
-
-    }
-}
-
-private fun nextLoopIndex(current: Int, max: Int) = if (current == max) 0 else current + 1
-
-@ExperimentalAnimationApi
-@Composable
-fun ColorShiftLoopText(
+fun TwoColorSmoothText(
     modifier: Modifier = Modifier,
     text: String,
     style: TextStyle = LocalTextStyle.current,
@@ -113,11 +69,11 @@ fun ColorShiftLoopText(
 
 @ExperimentalAnimationApi
 @Composable
-fun AnotherColorShiftLoopText(
+fun MultiColorSmoothText(
     modifier: Modifier = Modifier,
     text: String,
     style: TextStyle = LocalTextStyle.current,
-    rainbow: List<Color> = SkittlesRainbow,
+    rainbow: List<Color> = PastelRainbow,
     startIndex: Int = 0,
     duration: Int
 ) {
@@ -129,7 +85,7 @@ fun AnotherColorShiftLoopText(
         animationSpec = infiniteRepeatable(
             animation = keyframes {
                 durationMillis = duration
-                delayMillis = startIndex * interval/2
+                delayMillis = startIndex * interval / 2
                 var i = 0
                 for (color in rainbow) {
                     color at i
@@ -142,40 +98,20 @@ fun AnotherColorShiftLoopText(
     Text(text = text, color = color, style = style, modifier = modifier)
 }
 
-@ExperimentalAnimationApi
-@Composable
-fun LoopRainbowText(
-    modifier: Modifier = Modifier,
-    text: String,
-    style: TextStyle = LocalTextStyle.current,
-    rainbow: List<Color> = SkittlesRainbow
-) {
-    require(rainbow.size > 0)
-    val infiniteTransition = rememberInfiniteTransition()
-    val colorIndex by infiniteTransition.animateValue(
-        initialValue = 0,
-        targetValue = rainbow.size - 1,
-        typeConverter = Int.VectorConverter,
-        animationSpec = infiniteRepeatable(
-            animation = tween(),
-            repeatMode = RepeatMode.Restart
-        )
-    )
-    MultiColorText(
-        text = text,
-        style = style,
-        modifier = modifier,
-        startColor = colorIndex,
-        rainbow = rainbow
-    )
-}
+private fun nextLoopIndex(current: Int, max: Int) = if (current == max) 0 else current + 1
 
 @ExperimentalAnimationApi
-@Preview(showBackground = true, name = "AllRainbowText preview day")
+@Preview(showBackground = true, name = "TwoColorSmoothText preview day")
 @Composable
-private fun AllRainbowTextPreview() {
+private fun TwoColorSmoothTextPreview() {
     MagicSprinklesTheme {
-        LoopRainbowText(text = "loopy")
+        TwoColorSmoothText(
+            text = "Smooth Operator",
+            modifier = Modifier.padding(8.dp),
+            style = MaterialTheme.typography.h4,
+            startColor = PastelRainbow[0],
+            endColor = PastelRainbow[2]
+        )
     }
 }
 
@@ -184,6 +120,25 @@ private fun AllRainbowTextPreview() {
 @Composable
 private fun MultiColorSmoothTextPreview() {
     MagicSprinklesTheme {
-        MultiColorSmoothText(text = "shifty")
+        MultiColorSmoothText(
+            text = "Smooth Operator",
+            modifier = Modifier.padding(8.dp),
+            style = MaterialTheme.typography.h4,
+            duration = 1200
+        )
+    }
+}
+
+@ExperimentalAnimationApi
+@Preview(showBackground = true, name = "SmoothRainbowText preview day")
+@Composable
+private fun SmoothRainbowTextPreview() {
+    MagicSprinklesTheme {
+        SmoothRainbowText(
+            text = "Smooth Operator",
+            modifier = Modifier.padding(8.dp),
+            style = MaterialTheme.typography.h4,
+            duration = 1200
+        )
     }
 }
