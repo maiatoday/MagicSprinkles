@@ -17,6 +17,8 @@ import net.maiatoday.magicsprinkles.ui.component.HideShowThingy
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import net.maiatoday.magicsprinkles.ui.component.CrossFadeThingy
+import net.maiatoday.magicsprinkles.ui.component.SizeChangeThingy
+import net.maiatoday.magicsprinkles.ui.components.TransitionThingy
 
 @ExperimentalAnimationApi
 @Composable
@@ -36,6 +38,8 @@ fun SampleScreen(
                     .align(Alignment.CenterHorizontally)
                     .padding(8.dp)
             )
+            SizeChangeThingy(Modifier.align(Alignment.CenterHorizontally))
+            TransitionThingy(Modifier.align(Alignment.CenterHorizontally))
         }
     }
 }

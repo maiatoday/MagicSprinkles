@@ -89,7 +89,7 @@ fun MultiColorSmoothText(
                 var i = 0
                 for (color in rainbow) {
                     color at i
-                    i = i + interval
+                    i += interval
                 }
             },
             repeatMode = RepeatMode.Restart
@@ -98,15 +98,13 @@ fun MultiColorSmoothText(
     Text(text = text, color = color, style = style, modifier = modifier)
 }
 
-private fun nextLoopIndex(current: Int, max: Int) = if (current == max) 0 else current + 1
-
 @ExperimentalAnimationApi
 @Preview(showBackground = true, name = "TwoColorSmoothText preview day")
 @Composable
 private fun TwoColorSmoothTextPreview() {
     MagicSprinklesTheme {
         TwoColorSmoothText(
-            text = "Smooth Operator",
+            text = "Two Tone",
             modifier = Modifier.padding(8.dp),
             style = MaterialTheme.typography.h4,
             startColor = PastelRainbow[0],
@@ -121,7 +119,7 @@ private fun TwoColorSmoothTextPreview() {
 private fun MultiColorSmoothTextPreview() {
     MagicSprinklesTheme {
         MultiColorSmoothText(
-            text = "Smooth Operator",
+            text = "Mad World",
             modifier = Modifier.padding(8.dp),
             style = MaterialTheme.typography.h4,
             duration = 1200
