@@ -62,7 +62,7 @@ fun LocalContentBlinkTag(
 @Composable
 fun BlinkTag(
     modifier: Modifier = Modifier,
-    durationMillis: Int = 500,
+    duration: Int = 500,
     content: @Composable (modifier: Modifier) -> Unit
 ) {
     val infiniteTransition = rememberInfiniteTransition()
@@ -70,7 +70,11 @@ fun BlinkTag(
         initialValue = 1f,
         targetValue = 0f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = durationMillis),
+            animation = keyframes {
+                durationMillis = duration
+                1f at (duration*0.8).toInt()
+                0f at duration
+            },
             repeatMode = RepeatMode.Reverse
         )
     )
@@ -84,9 +88,9 @@ fun BlinkText(
     text: String,
     color: Color = Color.Unspecified,
     style: TextStyle = LocalTextStyle.current,
-    durationMillis: Int = 500,
+    durationMillis: Int = 1000,
 ) {
-    BlinkTag(modifier = modifier, durationMillis = durationMillis) {
+    BlinkTag(modifier = modifier, duration = durationMillis) {
         Text(modifier = it, text = text, style = style, color = color)
     }
 }
@@ -110,7 +114,7 @@ private fun PreviewLocalContentBlinkTag() {
 }
 
 @ExperimentalAnimationApi
-@Preview(showBackground = true, name = "BlinkText preview day")
+@Preview(showBackground = true, name = "ThemedBlinkText preview day")
 @Composable
 private fun PreviewBlinkText() {
     MagicSprinklesTheme {
@@ -119,7 +123,7 @@ private fun PreviewBlinkText() {
 }
 
 @ExperimentalAnimationApi
-@Preview(showBackground = true, name = "BlinkTextToo preview day")
+@Preview(showBackground = true, name = "BlinkText preview day")
 @Composable
 private fun PreviewBlinkTextToo() {
     MagicSprinklesTheme {
