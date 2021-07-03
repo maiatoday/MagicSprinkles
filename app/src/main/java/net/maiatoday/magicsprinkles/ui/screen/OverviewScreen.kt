@@ -24,13 +24,13 @@ fun OverviewScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(onClick = { navController.navigate("rainbow") }) {
+            Button(onClick = { navController.navigate(NavigationDirections.rainbow.destination) }) {
                 Text("🌈")
             }
-            Button(onClick = { navController.navigate("sample") }) {
+            Button(onClick = { navController.navigate(NavigationDirections.sample.destination) }) {
                 Text("✅")
             }
-            Button(onClick = { navController.navigate("blink") }) {
+            Button(onClick = { navController.navigate(NavigationDirections.blink.destination) }) {
                 Text("<blink>")
             }
         }
