@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import net.maiatoday.magicsprinkles.ui.screen.BlinkScreen
 import net.maiatoday.magicsprinkles.ui.screen.OverviewScreen
 import net.maiatoday.magicsprinkles.ui.screen.RainbowScreen
 import net.maiatoday.magicsprinkles.ui.screen.SampleScreen
@@ -39,6 +40,9 @@ fun MagicApp() {
             }
             composable(route = "sample") {
                 SampleScreen(navController = navController)
+            }
+            composable(route = "blink") {
+                BlinkScreen(navController = navController)
             }
         }
     }

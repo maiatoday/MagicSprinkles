@@ -27,9 +27,11 @@ fun OverviewScreen(
             Button(onClick = { navController.navigate("rainbow") }) {
                 Text("🌈")
             }
-
             Button(onClick = { navController.navigate("sample") }) {
                 Text("✅")
+            }
+            Button(onClick = { navController.navigate("blink") }) {
+                Text("<blink>")
             }
         }
     }
