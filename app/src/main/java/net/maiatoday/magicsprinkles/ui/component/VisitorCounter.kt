@@ -25,12 +25,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
 
+enum class CounterState {
+    INCREMENT,
+    DECREMENT
+}
+
 @ExperimentalAnimationApi
 @Composable
 fun VisitorCounter(
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,
 ) {
+    var counterState by remember {mutableStateOf(CounterState.INCREMENT)}
     var count by remember { mutableStateOf(0) }
     val numbersSlidingAnimation: AnimatedContentScope<Int>.() -> ContentTransform = {
         if (initialState > targetState) {
@@ -47,7 +53,10 @@ fun VisitorCounter(
             modifier = modifier.clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
-                onClick = { count++ }
+                onClick = { counterState = when (counterState) {
+                    CounterState.INCREMENT -> CounterState.DECREMENT
+                    CounterState.DECREMENT -> CounterState.INCREMENT
+                } }
             ),
             text = number.toString().padStart(10, '0'),
             style = style

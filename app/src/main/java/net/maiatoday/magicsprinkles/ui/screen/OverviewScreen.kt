@@ -9,30 +9,42 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import net.maiatoday.magicsprinkles.MainViewModel
+import androidx.compose.ui.tooling.preview.Preview
+import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
 
 @ExperimentalAnimationApi
 @Composable
 fun OverviewScreen(
-    viewModel: MainViewModel = viewModel(),
-    navController: NavHostController
+    onRainbowClick: () -> Unit = {},
+    onSampleClick: () -> Unit = {},
+    onBlinkClick: () -> Unit = {},
 ) {
     Surface {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(onClick = { navController.navigate(NavigationDirections.rainbow.destination) }) {
+            Button(onClick = onRainbowClick) {
                 Text("🌈")
             }
-            Button(onClick = { navController.navigate(NavigationDirections.sample.destination) }) {
+            Button(onClick = onSampleClick) {
                 Text("✅")
             }
-            Button(onClick = { navController.navigate(NavigationDirections.blink.destination) }) {
+            Button(onClick = onBlinkClick) {
                 Text("<blink>")
             }
+            Button(onClick = onBlinkClick) {
+                Text("⏱")
+            }
         }
+    }
+}
+
+@ExperimentalAnimationApi
+@Preview(showBackground = true, name = "OverviewScreen preview day")
+@Composable
+private fun PreviewOverviewScreen() {
+    MagicSprinklesTheme {
+        OverviewScreen()
     }
 }

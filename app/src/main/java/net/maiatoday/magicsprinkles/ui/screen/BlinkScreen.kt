@@ -2,8 +2,18 @@ package net.maiatoday.magicsprinkles.ui.screen
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,12 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import net.maiatoday.magicsprinkles.MainViewModel
 import net.maiatoday.magicsprinkles.R
-import net.maiatoday.magicsprinkles.ui.component.*
+import net.maiatoday.magicsprinkles.ui.component.BlinkTag
+import net.maiatoday.magicsprinkles.ui.component.BlinkText
+import net.maiatoday.magicsprinkles.ui.component.LocalContentBlinkTag
+import net.maiatoday.magicsprinkles.ui.component.ThemedBlinkText
+import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
 import net.maiatoday.magicsprinkles.ui.theme.PastelRainbowRed
 import net.maiatoday.magicsprinkles.ui.theme.RainbowBlue
 import net.maiatoday.magicsprinkles.ui.theme.RainbowOrange
@@ -26,10 +38,7 @@ import net.maiatoday.magicsprinkles.ui.theme.RainbowRed
 
 @ExperimentalAnimationApi
 @Composable
-fun BlinkScreen(
-    viewModel: MainViewModel = viewModel(),
-    navController: NavHostController
-) {
+fun BlinkScreen() {
     Surface(color = MaterialTheme.colors.background) {
         var text by rememberSaveable { mutableStateOf("<blink>") }
         Column(
@@ -157,5 +166,14 @@ fun BlinkScreen(
                 }
             }
         }
+    }
+}
+
+@ExperimentalAnimationApi
+@Preview(showBackground = true, name = "BlinkScreen preview day")
+@Composable
+private fun PreviewBlinkScreen() {
+    MagicSprinklesTheme {
+        BlinkScreen()
     }
 }
