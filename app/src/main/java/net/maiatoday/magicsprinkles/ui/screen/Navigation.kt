@@ -2,6 +2,8 @@ package net.maiatoday.magicsprinkles.ui.screen
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NamedNavArgument
@@ -18,6 +20,7 @@ fun Navigation(navController: NavHostController) {
                 onRainbowClick = { navController.navigate(NavigationDirections.rainbow.destination) },
                 onSampleClick = { navController.navigate(NavigationDirections.sample.destination) },
                 onBlinkClick = { navController.navigate(NavigationDirections.blink.destination) },
+                onCounterClick = { navController.navigate(NavigationDirections.counter.destination) },
             )
         }
         composable(route = NavigationDirections.rainbow.destination) {
@@ -29,11 +32,13 @@ fun Navigation(navController: NavHostController) {
         composable(route = NavigationDirections.blink.destination) {
             BlinkScreen()
         }
-
         composable(route = NavigationDirections.counter.destination) {
             val viewModel: CounterViewModel = hiltViewModel()
-            CounterScreen(counter = viewModel.counter,
-                onClick = { viewModel.onClick() })
+            val count by viewModel.counter.collectAsState()
+            CounterScreen(
+                count = count,
+                onClick = { viewModel.onClick() }
+            )
         }
     }
 }

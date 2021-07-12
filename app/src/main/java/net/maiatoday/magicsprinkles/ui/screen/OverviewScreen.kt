@@ -8,6 +8,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
@@ -18,11 +19,13 @@ fun OverviewScreen(
     onRainbowClick: () -> Unit = {},
     onSampleClick: () -> Unit = {},
     onBlinkClick: () -> Unit = {},
+    onCounterClick: () -> Unit = {},
 ) {
     Surface {
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceEvenly
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(onClick = onRainbowClick) {
                 Text("🌈")
@@ -33,7 +36,7 @@ fun OverviewScreen(
             Button(onClick = onBlinkClick) {
                 Text("<blink>")
             }
-            Button(onClick = onBlinkClick) {
+            Button(onClick = onCounterClick) {
                 Text("⏱")
             }
         }

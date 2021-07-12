@@ -24,4 +24,7 @@ val SourceSerif = FontFamily(
 )
 
 // Set of Material typography styles to start with
-val Typography = Typography(defaultFontFamily = SourceSerif)
+val Typography = Typography(
+    defaultFontFamily = SourceSerif,
+    h3 = TextStyle(fontFamily = ComicNeue)
+)
