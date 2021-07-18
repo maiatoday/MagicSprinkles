@@ -20,6 +20,7 @@ fun OverviewScreen(
     onSampleClick: () -> Unit = {},
     onBlinkClick: () -> Unit = {},
     onCounterClick: () -> Unit = {},
+    onFlamesClick: () -> Unit = {},
 ) {
     Surface {
         Column(
@@ -38,6 +39,9 @@ fun OverviewScreen(
             }
             Button(onClick = onCounterClick) {
                 Text("⏱")
+            }
+            Button(onClick = onFlamesClick) {
+                Text("🔥")
             }
         }
     }

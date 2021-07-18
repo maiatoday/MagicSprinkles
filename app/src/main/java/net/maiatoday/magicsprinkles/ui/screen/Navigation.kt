@@ -21,6 +21,7 @@ fun Navigation(navController: NavHostController) {
                 onSampleClick = { navController.navigate(NavigationDirections.sample.destination) },
                 onBlinkClick = { navController.navigate(NavigationDirections.blink.destination) },
                 onCounterClick = { navController.navigate(NavigationDirections.counter.destination) },
+                onFlamesClick = { navController.navigate(NavigationDirections.flames.destination) },
             )
         }
         composable(route = NavigationDirections.rainbow.destination) {
@@ -39,6 +40,9 @@ fun Navigation(navController: NavHostController) {
                 count = count,
                 onClick = { viewModel.onClick() }
             )
+        }
+        composable(route = NavigationDirections.flames.destination) {
+            FlamesScreen()
         }
     }
 }
@@ -68,5 +72,9 @@ object NavigationDirections {
     val counter = object : NavigationCommand {
         override val arguments = emptyList<NamedNavArgument>()
         override val destination = "counter"
+    }
+    val flames = object : NavigationCommand {
+        override val arguments = emptyList<NamedNavArgument>()
+        override val destination = "flames"
     }
 }
