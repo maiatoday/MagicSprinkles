@@ -15,7 +15,7 @@ import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @ExperimentalAnimationApi
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

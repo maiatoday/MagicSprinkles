@@ -6,7 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NamedNavArgument
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import net.maiatoday.magicsprinkles.CounterViewModel

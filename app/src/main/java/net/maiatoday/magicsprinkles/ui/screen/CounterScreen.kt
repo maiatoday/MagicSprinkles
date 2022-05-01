@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package net.maiatoday.magicsprinkles.ui.screen
 
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -17,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import net.maiatoday.magicsprinkles.ui.component.Counter
 import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CounterScreen(count: Int, onClick: () -> Unit = {}) {
     Column(
