@@ -22,6 +22,7 @@ fun Navigation(navController: NavHostController) {
                 onBlinkClick = { navController.navigate(NavigationDirections.blink.destination) },
                 onCounterClick = { navController.navigate(NavigationDirections.counter.destination) },
                 onFlamesClick = { navController.navigate(NavigationDirections.flames.destination) },
+                onWildCursorClick = { navController.navigate(NavigationDirections.wildCursor.destination) },
             )
         }
         composable(route = NavigationDirections.rainbow.destination) {
@@ -43,6 +44,9 @@ fun Navigation(navController: NavHostController) {
         }
         composable(route = NavigationDirections.flames.destination) {
             FlamesScreen()
+        }
+        composable(route = NavigationDirections.wildCursor.destination) {
+            WildCursorScreen()
         }
     }
 }
@@ -76,5 +80,9 @@ object NavigationDirections {
     val flames = object : NavigationCommand {
         override val arguments = emptyList<NamedNavArgument>()
         override val destination = "flames"
+    }
+    val wildCursor = object : NavigationCommand {
+        override val arguments = emptyList<NamedNavArgument>()
+        override val destination = "wildCursor"
     }
 }

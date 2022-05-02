@@ -45,7 +45,16 @@
         <entry key="../../../../../layout/compose-model-1626200152551.xml" value="0.3137668918918919" />
         <entry key="../../../../../layout/compose-model-1626614211886.xml" value="0.3137668918918919" />
         <entry key="../../../../../layout/compose-model-1626614269393.xml" value="0.3137668918918919" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/component/CircleOffsetAnimation.kt" value="0.3135021097046414" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/component/CrossfadeThingy.kt" value="0.4630681818181818" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/component/CursorVisible.kt" value="0.3137668918918919" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/component/Heart.kt" value="0.5927272727272728" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/component/LifeSaver.kt" value="0.3409090909090909" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/component/SmoothRainbowText.kt" value="0.4309252217997465" />
         <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/screen/CounterScreen.kt" value="0.15092592592592594" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/screen/DoughnutScreen.kt" value="0.3145639288738357" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/screen/OverviewScreen.kt" value="0.15092592592592594" />
+        <entry key="app/src/main/java/net/maiatoday/magicsprinkles/ui/screen/WildCursorScreen.kt" value="0.3145639288738357" />
       </map>
     </option>
   </component>
