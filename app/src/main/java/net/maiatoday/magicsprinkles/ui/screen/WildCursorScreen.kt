@@ -17,27 +17,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.maiatoday.magicsprinkles.ui.component.CursorVisible
+import net.maiatoday.magicsprinkles.ui.component.GlitterBox
 import net.maiatoday.magicsprinkles.ui.component.HeartPulse
 import net.maiatoday.magicsprinkles.ui.component.LifeSaver
 import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
 
 @Composable
 fun WildCursorScreen() {
-    var state by remember { mutableStateOf(true) }
-    CursorVisible { if (state) HeartPulse() else LifeSaver() }
+    var state by remember { mutableStateOf(CursorState.HEART) }
+
+    when (state) {
+        CursorState.HEART -> CursorVisible { HeartPulse() }
+        CursorState.LIFESAVER -> CursorVisible { LifeSaver() }
+        CursorState.GLITTER -> GlitterBox()
+    }
+
     Row(Modifier.selectableGroup(), verticalAlignment = Alignment.CenterVertically) {
         RadioButton(
-            selected = state,
-            onClick = { state = true }
+            selected = state == CursorState.HEART,
+            onClick = { state = CursorState.HEART }
         )
         Text("💗")
         Spacer(modifier = Modifier.size(16.dp))
         RadioButton(
-            selected = !state,
-            onClick = { state = false }
+            selected = state == CursorState.LIFESAVER,
+            onClick = { state = CursorState.LIFESAVER }
         )
         Text("🍬")
+        Spacer(modifier = Modifier.size(16.dp))
+        RadioButton(
+            selected = state == CursorState.GLITTER,
+            onClick = { state = CursorState.GLITTER }
+        )
+        Text("✨")
     }
+}
+
+enum class CursorState {
+    HEART, LIFESAVER, GLITTER
 }
 
 @ExperimentalAnimationApi
