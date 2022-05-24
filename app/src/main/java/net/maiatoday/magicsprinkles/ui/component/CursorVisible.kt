@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
@@ -20,21 +21,20 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.round
 import kotlin.math.roundToInt
 
 @Composable
 fun CursorVisible(content: @Composable () -> Unit) {
     val boxSize = 100.dp
     val boxPx = with(LocalDensity.current) { boxSize.toPx() }
-    var offsetX by remember { mutableStateOf(0f) }
-    var offsetY by remember { mutableStateOf(0f) }
+    var offset by remember { mutableStateOf(Offset(0f, 0f)) }
     var visible by remember { mutableStateOf(false) }
     Box(modifier = Modifier
         .fillMaxSize()
         .pointerInput(Unit) {
             detectTapGestures {
-                offsetX = it.x - boxPx / 2
-                offsetY = it.y - boxPx / 2
+                offset = it - Offset(boxPx/2, boxPx/2)
                 visible = !visible
             }
         }
@@ -42,13 +42,12 @@ fun CursorVisible(content: @Composable () -> Unit) {
         if (visible) {
             Box(
                 Modifier
-                    .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+                    .offset { offset.round() }
                     .size(boxSize)
                     .pointerInput(Unit) {
                         detectDragGestures { change, dragAmount ->
                             change.consumeAllChanges()
-                            offsetX += dragAmount.x
-                            offsetY += dragAmount.y
+                            offset += dragAmount
                         }
                     }
             ) {
