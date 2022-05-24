@@ -1,6 +1,7 @@
 package net.maiatoday.magicsprinkles.ui.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -26,15 +27,16 @@ import net.maiatoday.magicsprinkles.ui.theme.SkittlesRainbow
 
 @Composable
 fun GlitterBox(rainbow: List<Color> = SkittlesRainbow, fleckCount: Int = 10, visible:Boolean = true) {
-    var offsetX by remember { mutableStateOf(0f) }
-    var offsetY by remember { mutableStateOf(0f) }
+    var source by remember { mutableStateOf(Offset(200f, 200f)) }
+
     var glitterState by remember {
         mutableStateOf(
             GlitterState(
                 speed = 0.5f,
                 colors = rainbow,
                 glitterShape = GlitterShape.Mixed,
-                fleckCount = fleckCount
+                fleckCount = fleckCount,
+                source = source
             )
         )
     }
@@ -54,9 +56,12 @@ fun GlitterBox(rainbow: List<Color> = SkittlesRainbow, fleckCount: Int = 10, vis
         .fillMaxSize()
         .pointerInput(Unit) {
             detectTapGestures {
-                offsetX = it.x
-                offsetY = it.y
-                glitterState = glitterState.updateSource(offsetX, offsetY)
+                source = it
+                glitterState = glitterState.updateSource(source)
+            }
+            detectDragGestures { _, dragAmount ->
+                source += dragAmount
+                glitterState = glitterState.updateSource(source)
             }
         }
     ) {
@@ -83,8 +88,7 @@ data class GlitterState(
     val size: Size = Size.Zero,
     val speed: Float,
     val fleckCount: Int = 10,
-    val sourceX: Float = 0f,
-    val sourceY: Float = 0f
+    val source: Offset = Offset(0f, 0f)
 ) {
 
     fun next(durationMillis: Long) {
@@ -104,21 +108,19 @@ data class GlitterState(
         }
 
         fun GlitterState.updateSource(
-            offsetX: Float, offsetY: Float
+            source: Offset
         ): GlitterState {
-            if (offsetX == this.sourceX && offsetY == this.sourceY) return this
+            if (source == this.source) return this
             return copy(
                 flecks = flecks.filter { it.lifeCount > 0 } + (0..fleckCount).map {
                     Fleck.create(
                         borders = size,
                         colors = colors,
                         glitterShape = glitterShape,
-                        offsetX = offsetX,
-                        offsetY = offsetY
+                        source
                     )
                 },
-                sourceX = offsetX,
-                sourceY = offsetY
+                source = source
             )
         }
     }
@@ -193,17 +195,13 @@ class Fleck(
             borders: Size,
             colors: List<Color>,
             glitterShape: GlitterShape,
-            offsetX: Float = 0f,
-            offsetY: Float = 0f
+            source: Offset = Offset(0f,0f)
         ): Fleck {
             val shape = if (glitterShape == GlitterShape.Mixed) {
                 if ((0..1).random() == 0) GlitterShape.Circle else GlitterShape.Rectangle
             } else glitterShape
             return Fleck(
-                position = Offset(
-                    offsetX,
-                    offsetY
-                ),
+                position = source,
                 vector = Offset(
                     // First, randomize direction. Second, randomize amplitude of speed vector.
                     listOf(
