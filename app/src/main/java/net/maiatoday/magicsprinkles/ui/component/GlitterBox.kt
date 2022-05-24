@@ -1,9 +1,12 @@
 package net.maiatoday.magicsprinkles.ui.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,15 +23,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.round
+import androidx.compose.ui.unit.toSize
 import kotlinx.coroutines.isActive
 import net.maiatoday.magicsprinkles.ui.component.GlitterState.Companion.sizeChanged
 import net.maiatoday.magicsprinkles.ui.component.GlitterState.Companion.updateSource
+import net.maiatoday.magicsprinkles.ui.theme.MagicSprinklesTheme
 import net.maiatoday.magicsprinkles.ui.theme.SkittlesRainbow
 
 @Composable
-fun GlitterBox(rainbow: List<Color> = SkittlesRainbow, fleckCount: Int = 10, visible:Boolean = true) {
-    var source by remember { mutableStateOf(Offset(200f, 200f)) }
+fun GlitterBox(
+    rainbow: List<Color> = SkittlesRainbow,
+    fleckCount: Int = 2,
+    visible: Boolean = true
+) {
 
+    var size by remember { mutableStateOf(Size.Zero) }
+    var source by remember { mutableStateOf(Offset(200f, 200f)) }
     var glitterState by remember {
         mutableStateOf(
             GlitterState(
@@ -52,27 +66,40 @@ fun GlitterBox(rainbow: List<Color> = SkittlesRainbow, fleckCount: Int = 10, vis
             }
         }
     }
-    Canvas(modifier = Modifier
-        .fillMaxSize()
-        .pointerInput(Unit) {
-            detectTapGestures {
-                source = it
-                glitterState = glitterState.updateSource(source)
-            }
-            detectDragGestures { _, dragAmount ->
-                source += dragAmount
-                glitterState = glitterState.updateSource(source)
-            }
-        }
+    Box(
+        Modifier
+            .fillMaxSize()
+            .onSizeChanged { size = it.toSize() }
     ) {
-        glitterState = glitterState.sizeChanged(this.size)
-        if (visible) {
-            for (fleck in glitterState.flecks) {
-                fleck.draw(drawContext.canvas)
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            glitterState = glitterState.sizeChanged(this.size)
+            if (visible) {
+                for (fleck in glitterState.flecks) {
+                    fleck.draw(drawContext.canvas)
+                }
             }
         }
+        Box(
+            Modifier
+                .offset { source.round() }
+                .size(10.dp)
+                .background(Color.Magenta)
+                .pointerInput(Unit) {
+                    detectDragGestures { _, dragAmount ->
+                        val summed = source + dragAmount
+                        val newValue = Offset(
+                            x = summed.x.coerceIn(0f, size.width - 10.dp.toPx()),
+                            y = summed.y.coerceIn(0f, size.height - 10.dp.toPx())
+                        )
+                        source = newValue
+                        glitterState = glitterState.updateSource(source)
+                    }
+                }
+        )
     }
-
 }
 
 enum class GlitterShape {
@@ -90,6 +117,9 @@ data class GlitterState(
     val fleckCount: Int = 10,
     val source: Offset = Offset(0f, 0f)
 ) {
+
+    private val xVectorRange: IntRange = -100..100
+    private val yVectorRange: IntRange = 0..500
 
     fun next(durationMillis: Long) {
         flecks.forEach {
@@ -114,7 +144,8 @@ data class GlitterState(
             return copy(
                 flecks = flecks.filter { it.lifeCount > 0 } + (0..fleckCount).map {
                     Fleck.create(
-                        borders = size,
+                        xVectorRange,
+                        yVectorRange,
                         colors = colors,
                         glitterShape = glitterShape,
                         source
@@ -133,7 +164,8 @@ class Fleck(
     private val shape: GlitterShape = GlitterShape.Circle,
     position: Offset
 ) {
-    var lifeCount: Int = 100
+    var lifeCount: Int = MAX_LIFE
+    private var drawRadius = radius
     private var position by mutableStateOf(position)
     private var vector by mutableStateOf(vector)
     private val paint: Paint = Paint().apply {
@@ -149,6 +181,7 @@ class Fleck(
     ) {
         lifeCount -= 1
         if (lifeCount <= 0) lifeCount = 0
+        drawRadius = radius * lifeCount / MAX_LIFE
         val speed = vector * speedCoefficient
         val borderTop = 0
         val borderLeft = 0
@@ -169,33 +202,37 @@ class Fleck(
 
     fun draw(canvas: Canvas) {
         if (lifeCount > 0) {
-            when (shape) {
-                GlitterShape.Circle -> {
-                    canvas.drawCircle(
-                        radius = radius,
-                        center = position,
-                        paint = paint
+            if (shape == GlitterShape.Circle) {
+                canvas.drawCircle(
+                    radius = drawRadius,
+                    center = position,
+                    paint = paint
+                )
+            } else {
+                val rect =
+                    Rect(
+                        position.x,
+                        position.y,
+                        position.x + drawRadius,
+                        position.y + drawRadius
                     )
-                }
-                GlitterShape.Rectangle -> {
-                    val rect =
-                        Rect(position.x, position.y, position.x + radius, position.y + radius)
-                    canvas.drawRect(
-                        rect = rect,
-                        paint = paint
-                    )
-                }
+                canvas.drawRect(
+                    rect = rect,
+                    paint = paint
+                )
             }
         }
     }
 
     companion object {
-
+        const val MAX_LIFE = 100
+        val radiusRange = (5..25)
         fun create(
-            borders: Size,
+            xVectorRange: IntRange,
+            yVectorRange: IntRange,
             colors: List<Color>,
             glitterShape: GlitterShape,
-            source: Offset = Offset(0f,0f)
+            source: Offset = Offset(0f, 0f)
         ): Fleck {
             val shape = if (glitterShape == GlitterShape.Mixed) {
                 if ((0..1).random() == 0) GlitterShape.Circle else GlitterShape.Rectangle
@@ -203,22 +240,21 @@ class Fleck(
             return Fleck(
                 position = source,
                 vector = Offset(
-                    // First, randomize direction. Second, randomize amplitude of speed vector.
-                    listOf(
-                        -1f,
-                        1f
-                    ).random() * ((borders.width / 100f).toInt()..(borders.width / 10f).toInt()).random()
-                        .toFloat(),
-                    listOf(
-                        -1f,
-                        1f
-                    ).random() * ((borders.height / 100f).toInt()..(borders.height / 10f).toInt()).random()
-                        .toFloat()
+                    x = listOf(-1f, 1f).random() * xVectorRange.random().toFloat(),
+                    y = yVectorRange.random().toFloat()
                 ),
                 GlitterColor = colors.random(),
-                radius = (5..25).random().toFloat(),
+                radius = radiusRange.random().toFloat(),
                 shape = shape
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun DefaultPreview() {
+    MagicSprinklesTheme() {
+        GlitterBox()
     }
 }
