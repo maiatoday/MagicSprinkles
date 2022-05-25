@@ -1,8 +1,11 @@
 package net.maiatoday.magicsprinkles.ui.screen
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.RadioButton
@@ -32,7 +35,12 @@ fun WildCursorScreen() {
         CursorState.GLITTER -> GlitterBox()
     }
 
-    Row(Modifier.selectableGroup(), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier
+        .selectableGroup()
+        .padding(16.dp)
+        .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically) {
         RadioButton(
             selected = state == CursorState.HEART,
             onClick = { state = CursorState.HEART }
